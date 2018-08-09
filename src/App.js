@@ -17,6 +17,21 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then((books) => this.setState({ books: this.state.books.concat(books)}));
   }
 
+  moveBook = (book, value) => {
+    console.log(book.id,value);
+    BooksAPI.update(book, value).then((r) =>{
+      console.log(r);
+      this.setState((oldState) => ({
+        books : oldState.books.map(b => {
+          if (b.id === book.id) {
+            b.shelf = value;
+          }
+          return b;
+        })
+      }))
+    })
+  }
+
   render() {
     let currentlyReading  = this.state.books.filter((book) => book.shelf === 'currentlyReading');
     let wantToRead = this.state.books.filter((book) => book.shelf === 'wantToRead');
@@ -61,9 +76,9 @@ class BooksApp extends React.Component {
                                 <div className="book-top">
                                   <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
                                   <div className="book-shelf-changer">
-                                    <select>
+                                    <select defaultValue='move' onChange ={(e) => this.moveBook(book, e.target.value)}>
                                       <option value="move" disabled>Move to...</option>
-                                      <option value="currentlyReading">Currently Reading</option>
+                                      <option value="currentlyReading" style={{display:'none'}}>Currently Reading</option>
                                       <option value="wantToRead">Want to Read</option>
                                       <option value="read">Read</option>
                                       <option value="none">None</option>
@@ -88,10 +103,10 @@ class BooksApp extends React.Component {
                                 <div className="book-top">
                                   <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
                                   <div className="book-shelf-changer">
-                                    <select>
+                                    <select defaultValue='move' onChange ={(e) => this.moveBook(book, e.target.value)}>
                                       <option value="move" disabled>Move to...</option>
                                       <option value="currentlyReading">Currently Reading</option>
-                                      <option value="wantToRead">Want to Read</option>
+                                      <option value="wantToRead" style={{display:'none'}}>Want to Read</option>
                                       <option value="read">Read</option>
                                       <option value="none">None</option>
                                     </select>
@@ -115,11 +130,11 @@ class BooksApp extends React.Component {
                                 <div className="book-top">
                                   <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
                                   <div className="book-shelf-changer">
-                                    <select>
+                                    <select defaultValue='move' onChange ={(e) => this.moveBook(book, e.target.value)}>
                                       <option value="move" disabled>Move to...</option>
                                       <option value="currentlyReading">Currently Reading</option>
                                       <option value="wantToRead">Want to Read</option>
-                                      <option value="read">Read</option>
+                                      <option value="read" style={{display:'none'}}>Read</option>
                                       <option value="none">None</option>
                                     </select>
                                   </div>
