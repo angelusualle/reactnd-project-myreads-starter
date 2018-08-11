@@ -3,7 +3,8 @@ import React from 'react'
 import './App.css'
 import Shelf from './Shelf'
 import Search from './Search'
-
+import {Link} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 
 class BooksApp extends React.Component {
   state = {
@@ -33,34 +34,34 @@ class BooksApp extends React.Component {
     })
   }
 
-  navigate = (showSearchPage) => {
-    this.setState({ showSearchPage: showSearchPage });
-  }
   render() {
     let currentlyReading  = this.state.books.filter((book) => book.shelf === 'currentlyReading');
     let wantToRead = this.state.books.filter((book) => book.shelf === 'wantToRead');
     let read = this.state.books.filter((book) => book.shelf === 'read');
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <Search navigate={this.navigate} books={this.state.books} move={this.moveBook}/>
-        ) : (
+        <Route exact path="/" render={() => 
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
               <div>
-                <Shelf books={currentlyReading} title='Currently Reading' move={this.moveBook}/>
-                <Shelf books={wantToRead} title='Want to Read' move={this.moveBook}/>
-                <Shelf books={read} title='Read' move={this.moveBook}/>
+                <Shelf books={currentlyReading} title="Currently Reading" move={this.moveBook}/>
+                <Shelf books={wantToRead} title="Want to Read" move={this.moveBook}/>
+                <Shelf books={read} title="Read" move={this.moveBook}/>
               </div>
             </div>
             <div className="open-search">
-              <a onClick={() => this.navigate(true)}>Add a book</a>
+            <Link to={{
+            pathname: "/search"
+            }}>Add a book</Link>
             </div>
           </div>
-        )}
+          } />
+        <Route path="/search" render={ () => 
+          <Search books={this.state.books} move={this.moveBook}/>
+        }/>
       </div>
     )
   }
