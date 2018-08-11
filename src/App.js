@@ -1,5 +1,5 @@
 import React from 'react'
- import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 import Shelf from './Shelf'
 import Search from './Search'
@@ -21,7 +21,7 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then((books) => this.setState({ books: this.state.books.concat(books)}));
   }
 
-  moveBook = (book, value) => {
+  moveBook(book, value) {
     BooksAPI.update(book, value).then((r) =>{
       this.setState((oldState) => ({
         books : oldState.books.map(b => {
