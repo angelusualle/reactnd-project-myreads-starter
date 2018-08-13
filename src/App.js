@@ -47,9 +47,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Shelf books={currentlyReading} title="Currently Reading" move={this.moveBook}/>
-                <Shelf books={wantToRead} title="Want to Read" move={this.moveBook}/>
-                <Shelf books={read} title="Read" move={this.moveBook}/>
+                <Shelf books={currentlyReading} title="Currently Reading" move={(book, value) => this.moveBook(book, value)}/>
+                <Shelf books={wantToRead} title="Want to Read" move={(book, value) => this.moveBook(book, value)}/>
+                <Shelf books={read} title="Read" move={(book, value) => this.moveBook(book, value)}/>
               </div>
             </div>
             <div className="open-search">
@@ -60,7 +60,7 @@ class BooksApp extends React.Component {
           </div>
           } />
         <Route path="/search" render={ () => 
-          <Search books={this.state.books} move={this.moveBook}/>
+          <Search books={this.state.books} move={(book, value) => this.moveBook(book, value)}/>
         }/>
       </div>
     )
