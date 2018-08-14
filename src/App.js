@@ -18,18 +18,14 @@ class BooksApp extends React.Component {
     showSearchPage: false
   }
   componentDidMount(){
-    BooksAPI.getAll().then((books) => this.setState({ books: this.state.books.concat(books)}));
+    BooksAPI.getAll().then((books) => this.setState({books}));
   }
 
   moveBook(book, value) {
     BooksAPI.update(book, value).then((r) =>{
+      book.shelf = value
       this.setState((oldState) => ({
-        books : oldState.books.map(b => {
-          if (b.id === book.id) {
-            b.shelf = value;
-          }
-          return b;
-        })
+        books : oldState.books.filter(b => b.id !== book.id).concat(book)
       }))
     })
   }
